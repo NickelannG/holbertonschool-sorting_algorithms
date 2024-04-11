@@ -8,9 +8,9 @@
  * @low: the lower index of the partition
  * @size: the size of the array
  */
-int partition(int *array, int high, int low, size_t size)
+int partition(int *array, int low, int high, size_t size)
 {
-	int i, j, pivot, temp, temp2;
+	int i, j, pivot, temp;
 
 	/* Choosing a pivot - last element */
 	pivot = array[high];
@@ -18,7 +18,7 @@ int partition(int *array, int high, int low, size_t size)
 	i = (low - 1);
 
 	j = low;
-	while (j <= high)
+	while (j <= high - 1)
 	{
 		if (array[j] < pivot)
 		{
@@ -34,9 +34,9 @@ int partition(int *array, int high, int low, size_t size)
 		j++;
 	}
 	/* Swap with pivot */
-	temp2 = array[i + 1];
+	temp = array[i + 1];
 	array[i + 1] = array[high];
-	array[high] = temp2;
+	array[high] = temp;
 
 	/* pivot index */
 	return (i + 1);
@@ -52,21 +52,14 @@ int partition(int *array, int high, int low, size_t size)
  */
 void quick_sort(int *array, size_t size)
 {
-	size_t low = 0, high = size - 1;
-	int pindex; /* pivot index */
-
-	/* Base Case */
-	if (size < 2)
+	int pindex, low, high; /* pivot index */
+	if (size <= 1)
 		return;
 
-	while (low < high)
-	{
-		pindex = partition(array, low, high, size);
+	high = size - 1;
+	low = 0;
+	pindex = partition(array, low, high, size);
 
-		/* Sort lower sub-array */
-		quick_sort(array, pindex - low);
-		
-		/* Update for next iteration */
-		low = pindex + 1;
-	}
+	quick_sort(array, pindex - low);
+	quick_sort(array +pindex + 1, size - pindex - 1);
 }
