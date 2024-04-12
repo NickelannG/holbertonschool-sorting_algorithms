@@ -53,7 +53,7 @@ int partition(int *array, int low, int high, size_t size)
 	}
 	/* Swap with pivot */
 	swap(&array[i + 1], &array[high]);
-	
+
 	/* Check if element after pivot is not equal to the pivot */
 	if (array[i + 1] != array[high])
 	{
