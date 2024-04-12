@@ -25,11 +25,11 @@ void swap(int *a, int *b)
  */
 int partition(int *array, int low, int high, size_t size)
 {
-	int i, j, pivot, temp;
+	int i, j, pivot;
 
 	/* Choosing a pivot - last element */
 	pivot = array[high];
-	
+
 	i = (low - 1);
 
 	j = low;
@@ -37,9 +37,9 @@ int partition(int *array, int low, int high, size_t size)
 	{
 		if (array[j] < pivot)
 		{
-			/* Swap */
+			/* Swap if smaller than pivot */
 			swap(&array[i], &array[j]);
-			
+
 			/* print the array after swap */
 			print_array(array, size);
 			i++;
@@ -48,7 +48,8 @@ int partition(int *array, int low, int high, size_t size)
 	}
 	/* Swap with pivot */
 	swap(&array[i + 1], &array[high]);
-
+	/* print the array after placing pivot in correct position */
+	print_array(array, size);
 	/* Pivot index */
 	return (i + 1);
 }
@@ -63,12 +64,19 @@ int partition(int *array, int low, int high, size_t size)
  */
 void sort(int *array, int low, int high, size_t size)
 {
+	/* pivot index */
 	int pindex;
 
-	pindex = partition(array, low, high, size);
+	if (low < high)
+	{
+		pindex = partition(array, low, high, size);
 
-	low = sort(array, low, pindex - 1);
-	high = sort(array, high, pindex + 1);
+		/* Sort the lower half */
+		sort(array, low, pindex - 1, size);
+
+		/* Sort the higher half */
+		sort(array, pindex + 1, high, size);
+	}
 }
 
 /**
@@ -76,21 +84,18 @@ void sort(int *array, int low, int high, size_t size)
  * the quick sort algorithm
  *
  * @array: the array of integers to be sorted
- * @size: the size of the array 
+ * @size: the size of the array
  *
  */
 void quick_sort(int *array, size_t size)
 {
-	size_t low, high;
+	int low, high;
 
-	low = sort(array, low, size);
-	high = sort(array, high, size);
+	if (array == NULL || size == 0)
+		return;
 
-	if (low < high)
-	{
-		pindex = parition(arr, low, high);
+	low = 0; /* index of first element 0 */
+	high = size - 1; /* index of last element */
 
-		quick_sort(array, low);
-		quick_sort(arr, high);
-	}
+	sort(array, low, high, size);
 }
