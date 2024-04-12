@@ -1,6 +1,21 @@
 #include "sort.h"
 
 /**
+ * swap - Swaps two elements
+ * @a: pointer to the first elements to be swapped
+ * @b: pointer to the second elements to be swapped
+ */
+
+void swap(int *a, int *b)
+{
+	int temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+/**
  * partition - partitions an array of integers
  *
  * @array: the array to be partitioned
@@ -14,18 +29,16 @@ int partition(int *array, int low, int high, size_t size)
 
 	/* Choosing a pivot - last element */
 	pivot = array[high];
-
+	
 	i = (low - 1);
 
 	j = low;
-	while (j <= high - 1)
+	while (j <= high)
 	{
 		if (array[j] < pivot)
 		{
 			/* Swap */
-			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
+			swap(&array[i], &array[j]);
 			
 			/* print the array after swap */
 			print_array(array, size);
@@ -34,12 +47,28 @@ int partition(int *array, int low, int high, size_t size)
 		j++;
 	}
 	/* Swap with pivot */
-	temp = array[i + 1];
-	array[i + 1] = array[high];
-	array[high] = temp;
+	swap(&array[i + 1], &array[high]);
 
-	/* pivot index */
+	/* Pivot index */
 	return (i + 1);
+}
+
+/**
+ * sort - Helper recursive function to do the sorting
+ *
+ * @array: The array to be sorted
+ * @low: the lower index
+ * @high: the higher index
+ * @size: the size of the array
+ */
+void sort(int *array, int low, int high, size_t size)
+{
+	int pindex;
+
+	pindex = partition(array, low, high, size);
+
+	low = sort(array, low, pindex - 1);
+	high = sort(array, high, pindex + 1);
 }
 
 /**
@@ -52,14 +81,16 @@ int partition(int *array, int low, int high, size_t size)
  */
 void quick_sort(int *array, size_t size)
 {
-	int pindex, low, high; /* pivot index */
-	if (size <= 1)
-		return;
+	size_t low, high;
 
-	high = size - 1;
-	low = 0;
-	pindex = partition(array, low, high, size);
+	low = sort(array, low, size);
+	high = sort(array, high, size);
 
-	quick_sort(array, pindex - low);
-	quick_sort(array +pindex + 1, size - pindex - 1);
+	if (low < high)
+	{
+		pindex = parition(arr, low, high);
+
+		quick_sort(array, low);
+		quick_sort(arr, high);
+	}
 }
