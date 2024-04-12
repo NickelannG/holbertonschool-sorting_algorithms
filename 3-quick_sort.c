@@ -22,6 +22,8 @@ void swap(int *a, int *b)
  * @high: the higher index of the partition
  * @low: the lower index of the partition
  * @size: the size of the array
+ *
+ * Return: the pivot index after paritioning
  */
 int partition(int *array, int low, int high, size_t size)
 {
@@ -86,6 +88,7 @@ void sort(int *array, int low, int high, size_t size)
  * @array: the array of integers to be sorted
  * @size: the size of the array
  *
+ * Return: nothing if the array doesn't exist or if the size is 0
  */
 void quick_sort(int *array, size_t size)
 {
