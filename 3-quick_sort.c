@@ -35,23 +35,31 @@ int partition(int *array, int low, int high, size_t size)
 	i = (low - 1);
 
 	j = low;
-	while (j <= high)
+	while (j <= high - 1)
 	{
 		if (array[j] < pivot)
 		{
+			i++;
 			/* Swap if smaller than pivot */
 			swap(&array[i], &array[j]);
 
-			/* print the array after swap */
-			print_array(array, size);
-			i++;
+			if (array[i] != array[j])
+			{
+				/* print the array after swap */
+				print_array(array, size);
+			}
 		}
 		j++;
 	}
 	/* Swap with pivot */
 	swap(&array[i + 1], &array[high]);
-	/* print the array after placing pivot in correct position */
-	print_array(array, size);
+	
+	/* Check if element after pivot is not equal to the pivot */
+	if (array[i + 1] != array[high])
+	{
+		/* print the array after placing pivot in correct position */
+		print_array(array, size);
+	}
 	/* Pivot index */
 	return (i + 1);
 }
