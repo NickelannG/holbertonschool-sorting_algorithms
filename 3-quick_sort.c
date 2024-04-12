@@ -31,7 +31,12 @@ int partition(int *array, int low, int high, size_t size)
 
 	/* Choosing a pivot - last element */
 	pivot = array[high];
-
+	
+	/**
+	 *  Positions i to start before the start of the partitioned array 
+	 *  ensuring that it points to the first element when incremented
+	 *  the first time
+	 */
 	i = (low - 1);
 
 	j = low;
